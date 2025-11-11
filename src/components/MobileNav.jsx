@@ -16,9 +16,9 @@ export default function MobileNav() {
         className='transition-all duration-200 ease-in'
       >
         {isOpen ? (
-          <ImMenu4 className='text-4xl' />
+          <ImMenu4 className='text-5xl text-primary' />
         ) : (
-          <ImMenu3 className='text-4xl' />
+          <ImMenu3 className='text-5xl text-primary' />
         )}
       </button>
 
