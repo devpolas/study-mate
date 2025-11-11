@@ -7,7 +7,7 @@ export default function NavAuth() {
         <Link to='/login' class='btn btn-outline btn-info'>
           Login
         </Link>
-        <Link to='/signup' class='btn btn-outline btn-primary'>
+        <Link to='/signup' class='btn btn-outline btn-primary hidden lg:flex'>
           Signup
         </Link>
       </div>
