@@ -1,3 +1,8 @@
+import ImageSlider from "./../components/ImageSlider.jsx";
 export default function Homepage() {
-  return <div>Home Page</div>;
+  return (
+    <div>
+      <ImageSlider />
+    </div>
+  );
 }

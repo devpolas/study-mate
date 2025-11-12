@@ -12,7 +12,7 @@ import SignWith from "./SignWith";
 export default function MobileNav() {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className='md:hidden relative'>
+    <div className='md:hidden'>
       <button
         onClick={() => setIsOpen((pre) => !pre)}
         className='transition-all duration-200 ease-in'
@@ -25,7 +25,7 @@ export default function MobileNav() {
       </button>
 
       {isOpen && (
-        <div className='absolute top-[65px] -left-4 w-xs p-4 shadow rounded-md bg-white/97 dark:bg-gray-900/97 backdrop-blur-md'>
+        <div className='absolute top-20 -left-1 w-xs p-4 shadow rounded-md bg-white/97 dark:bg-gray-900/97 backdrop-blur-md'>
           <div>
             <div className='flex-col gap-4 flex pb-2'>
               <NavLinkWithIcon path='/' icon={<GrHomeRounded />}>
