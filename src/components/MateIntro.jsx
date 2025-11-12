@@ -1,7 +1,7 @@
 export default function MateIntro() {
   const rating = 4;
   return (
-    <div className='card min-w-xs bg-base-100 shadow-xl border border-primary-content hover:shadow-2xl transition duration-300'>
+    <div className='card min-w-xs glass-effect shadow-xl border border-primary-content hover:shadow-2xl transition duration-300'>
       <figure className='px-6 pt-6'>
         <img
           src='https://i.ibb.co.com/nT9TXxz/Polas-CB.jpg'
@@ -17,6 +17,7 @@ export default function MateIntro() {
           {[...Array(5)].map((_, i) => (
             <input
               key={i}
+              disabled
               type='radio'
               name='rating'
               className='mask mask-star-2 bg-yellow-400'
