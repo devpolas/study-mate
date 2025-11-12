@@ -2,7 +2,7 @@ import { Link } from "react-router";
 
 export default function NavUser() {
   return (
-    <div className='dropdown dropdown-end'>
+    <div className='dropdown dropdown-end relative'>
       <div tabIndex={0} role='button'>
         <img
           className='w-12 h-12 mr-4 rounded-full border border-primary cursor-pointer'
@@ -12,7 +12,7 @@ export default function NavUser() {
       </div>
       <ul
         tabIndex='-1'
-        className='dropdown-content menu bg-base-100 rounded-md z-1 w-52 p-4 shadow-sm flex justify-center items-center gap-4'
+        className='dropdown-content menu bg-base-100 border border-primary-content rounded-md z-10 w-52 p-4 shadow-sm flex justify-center items-center gap-4 absolute top-16'
       >
         <Link
           to={"/profile"}
