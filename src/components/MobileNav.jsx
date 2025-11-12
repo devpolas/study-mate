@@ -45,10 +45,10 @@ export default function MobileNav() {
           <div>
             <div className='flex flex-col'>
               <div className='flex flex-row items-center justify-center pt-2 border-t-2 border-gray-300 dark:border-gray-700 gap-2'>
-                <Link to='/login' class='btn btn-outline btn-info'>
+                <Link to='/login' className='btn btn-outline btn-info'>
                   Login
                 </Link>
-                <Link to='/signup' class='btn btn-outline btn-primary'>
+                <Link to='/signup' className='btn btn-outline btn-primary'>
                   Signup
                 </Link>
               </div>
