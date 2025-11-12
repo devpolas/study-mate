@@ -1,6 +1,9 @@
 export default function HeroSection() {
   return (
-    <div className='py-8'>
+    <>
+      <h1 className='text-3xl sm:text-5xl pt-8 sm:pt-12 pb-8 sm:pb-8 font-bold text-primary text-center'>
+        How It Work's
+      </h1>
       <div
         className='hero min-h-[50vh]'
         style={{
@@ -28,6 +31,6 @@ export default function HeroSection() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

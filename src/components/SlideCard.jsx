@@ -1,6 +1,6 @@
 export default function SlideCard() {
   return (
-    <div className='flex glass-effect rounded-md border border-primary-content flex-row gap-1 sm:gap-2 md:gap-3 lg:gap-4 p-4 max-w-full shadow-lg'>
+    <div className='flex glass-effect rounded-md border border-primary-content flex-row gap-1 sm:gap-2 md:gap-3 lg:gap-4 p-1 max-w-full shadow-lg'>
       <div className='flex flex-col gap-4'>
         <img
           className='rounded-md h-[25vh] sm:h-[35vh] object-cover'
@@ -51,7 +51,7 @@ export default function SlideCard() {
           </p>
         </div>
 
-        <button className='btn btn-primary btn-outline mt-4 w-max self-end hidden sm:flex'>
+        <button className='btn btn-primary btn-outline my-4 mr-7 w-max self-end hidden sm:flex'>
           Details
         </button>
       </div>

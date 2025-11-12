@@ -26,12 +26,15 @@ const reviews = [
 
 export default function Reviews() {
   return (
-    <div>
-      <div className='flex flex-wrap justify-center pt-8'>
+    <>
+      <h1 className='text-3xl sm:text-5xl pt-10 sm:pt-20 pb-8 sm:pb-12 font-bold text-primary text-center'>
+        Review's
+      </h1>
+      <div className='flex flex-wrap justify-center'>
         {reviews.map((review, idx) => (
           <ReviewCard key={idx} {...review} />
         ))}
       </div>
-    </div>
+    </>
   );
 }
