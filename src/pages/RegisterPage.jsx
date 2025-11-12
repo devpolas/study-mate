@@ -23,8 +23,9 @@ export default function RegisterPage() {
     }
     if (image.size > imageSize) {
       setImageError("Your Picked Image Incorrect Size!");
+      setPickedImage("");
+      return;
     }
-    setPickedImage("");
 
     const fileReader = new FileReader();
     fileReader.onload = () => {
