@@ -20,14 +20,9 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    // If there’s no response (network error)
-    if (!error.response) {
-      return Promise.reject(error);
-    }
+    if (!error.response) return Promise.reject(error);
 
-    // If token is expired (401)
     if (error.response.status === 401 && !originalRequest._retry) {
-      // Queue requests while refreshing
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
