@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { useState } from "react";
 
 import { FcGoogle } from "react-icons/fc";
@@ -6,6 +6,8 @@ import SignWith from "../components/SignWith";
 import useAuthContext from "../context/useAuthContext";
 
 export default function LoginPage() {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [forgetPasswordEmail, setForgetPasswordEmail] = useState(null);
   const { socialLogin, isLoading, setIsLoading, isError, setIsError, login } =
@@ -19,6 +21,7 @@ export default function LoginPage() {
       setIsLoading(true);
       setIsError("");
       await login(data?.email, data?.password);
+      navigate(location?.state || "/");
     } catch (error) {
       const msg = error?.message || error?.status || "An occurred Error!";
       setIsError(msg);

@@ -8,6 +8,7 @@ export default function ProfileInfoItem({ isClick, label, text, placeholder }) {
             required
             name='name'
             type='text'
+            defaultValue={text}
             className='input text-sm w1/2'
             placeholder={placeholder}
           />

@@ -2,7 +2,7 @@ import { useState } from "react";
 import ProfileInfoItem from "./ProfileInfoItem";
 import ProfileInfoDropDownItem from "./ProfileInfoDropDownItem";
 
-export default function ProfileInfo() {
+export default function ProfileInfo({ user }) {
   const [isClick, setIsClick] = useState(false);
   return (
     <div className='flex flex-col gap-5'>
@@ -10,39 +10,39 @@ export default function ProfileInfo() {
         <ProfileInfoItem
           isClick={isClick}
           label={"Name"}
-          text={"Polas Chandra Barmon"}
+          text={user?.name}
           placeholder={"Please Enter Your Name"}
         />
 
         <ProfileInfoDropDownItem
           isClick={isClick}
           label={"Experience"}
-          text={"Expert"}
-          options={["Beginner", "Intermediate", "Expert"]}
+          text={user?.experienceLevel}
+          options={["beginner", "intermediate", "expert"]}
         />
         <ProfileInfoItem
           isClick={isClick}
           label={"Subject"}
-          text={"Mechanical"}
+          text={user?.subject}
           placeholder={"Please Enter Your Subject"}
         />
         <ProfileInfoDropDownItem
           isClick={isClick}
           label={"Study Mode"}
-          text={"Online"}
+          text={user?.studyMode ? "Online" : "Offline"}
           options={["Online", "Offline"]}
         />
 
         <ProfileInfoItem
           isClick={isClick}
           label={"Location"}
-          text={"Dinajpur, Bangladesh"}
+          text={user?.location}
           placeholder={"Please Enter Your Location"}
         />
         <ProfileInfoDropDownItem
           isClick={isClick}
           label={"Availability Time"}
-          text={"Evening 6 – 9 PM"}
+          text={user?.availability}
           options={[
             "Morning 6:00 AM – 10:00 AM",
             "Lunch 12:00 PM – 2:00 PM",

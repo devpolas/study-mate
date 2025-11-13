@@ -6,7 +6,8 @@ import { useLoaderData } from "react-router";
 export default function ProfilePage() {
   const [isClick, setIsClick] = useState(false);
   const data = useLoaderData();
-  console.log(data);
+
+  const { user } = data.data;
   return (
     <div className='grid place-content-center'>
       <div className='flex flex-col md:flex-row justify-center items-center md:items-start gap-8 md:gap-12 p-6 md:p-12 lg:p-16'>
@@ -14,22 +15,24 @@ export default function ProfilePage() {
           <div>
             <img
               className='rounded-md w-40 sm:w-48 md:w-56 lg:w-64 xl:w-72 object-cover'
-              src='https://i.ibb.co.com/nT9TXxz/Polas-CB.jpg'
-              alt='Polas-CB'
+              src={user?.image}
+              alt='profile picture'
             />
             <div className='flex flex-col gap-2 pt-4'>
               <h3>
                 <span className='text-xl sm:text-2xl font-semibold'>
                   Email:
                 </span>{" "}
-                <span className='text-lg sm:text-xl'>dpi.polas@gmail.com</span>
+                <span className='text-lg sm:text-xl'>{user?.email}</span>
               </h3>
 
               <h3>
                 <span className='text-xl sm:text-2xl font-semibold'>
                   Ratings:
                 </span>{" "}
-                <span className='text-lg sm:text-xl'>4.8</span>
+                <span className='text-lg sm:text-xl'>
+                  {user?.ratingAverage}
+                </span>
               </h3>
             </div>
           </div>
@@ -50,7 +53,7 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        {isClick ? <AllFriends /> : <ProfileInfo />}
+        {isClick ? <AllFriends /> : <ProfileInfo user={user} />}
       </div>
     </div>
   );

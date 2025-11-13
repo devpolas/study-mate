@@ -10,7 +10,7 @@ export default function ProfileInfoDropDownItem({
         <span className='text-xl sm:text-2xl font-semibold mr-2'>{label}:</span>
         {isClick ? (
           <label className='select'>
-            <select>
+            <select defaultValue={text}>
               {options.map((el) => (
                 <option key={el} value={el}>
                   {el}

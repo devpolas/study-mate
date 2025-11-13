@@ -15,6 +15,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     Component: RootLayout,
+    hydrateFallbackElement: <div className='skeleton h-screen w-dvw'></div>,
     children: [
       { index: true, Component: Homepage },
       {

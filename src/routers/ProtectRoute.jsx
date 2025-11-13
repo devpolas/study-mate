@@ -1,9 +1,12 @@
 import { Navigate, useLocation } from "react-router";
-import useAuthContext from "./../context/useAuthContext.jsx";
+import { useEffect } from "react";
 
 export default function ProtectRoute({ children }) {
   const location = useLocation();
-  const { token } = useAuthContext();
+  let token;
+  useEffect(() => {
+    token = localStorage.getItem("token");
+  }, []);
 
   if (token || token !== null) {
     return children;
