@@ -9,15 +9,16 @@ import PartnerDetailsPage from "../pages/PartnerDetailsPage";
 import ProtectRoute from "./ProtectRoute";
 import PublicRoute from "./PublicRoute";
 import ForgetPassword from "../pages/ForgetPassword";
-import { getMe, getSingleUser } from "../utils/dataLoader";
+import { getAllUsers, getMe, getSingleUser } from "../utils/dataLoader";
 import ErrorPage from "../pages/ErrorPage";
+import ErrorElement from "../pages/ErrorElement";
 
 const router = createBrowserRouter([
   {
     path: "/",
     Component: RootLayout,
     hydrateFallbackElement: <div className='skeleton h-screen w-dvw'></div>,
-    errorElement: <ErrorPage />,
+    errorElement: <ErrorElement />,
     children: [
       { index: true, Component: Homepage },
       {
@@ -30,7 +31,11 @@ const router = createBrowserRouter([
       },
       { path: "signup", Component: RegisterPage },
       { path: "forget-password", Component: ForgetPassword },
-      { path: "find-partner", Component: FindPartnerPage },
+      {
+        path: "find-partner",
+        Component: FindPartnerPage,
+        loader: getAllUsers,
+      },
       {
         path: "partner/:id",
         loader: async ({ params }) => await getSingleUser(params),

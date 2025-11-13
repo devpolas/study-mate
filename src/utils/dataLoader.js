@@ -1,7 +1,10 @@
+import axios from "axios";
 import api from "./api";
 
 export const getAllUsers = async () => {
-  const response = await api.get("/users");
+  const response = await axios.get(
+    "https://study-mate-api.vercel.app/api/v1/users"
+  );
   return response.data;
 };
 export const getSingleUser = async (id) => {
