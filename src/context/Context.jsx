@@ -9,6 +9,7 @@ const AuthContext = createContext({
   setIsLoading: () => {},
   isError: "",
   setIsError: () => {},
+  token: "",
 });
 
 export default AuthContext;

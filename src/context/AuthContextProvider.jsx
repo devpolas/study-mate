@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AuthContext from "./Context";
 import api from "./../utils/api";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
@@ -7,8 +7,13 @@ import { appAuth } from "./../features/firebase.config";
 export default function AuthContextProvider({ children }) {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState("");
-
+  const [token, setToken] = useState(localStorage.getItem("token") || null);
   const googleAuthProvider = new GoogleAuthProvider();
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    if (storedToken) setToken(storedToken);
+  }, []);
 
   const signup = async (name, email, password, confirmPassword) => {
     setIsLoading(true);
@@ -21,6 +26,7 @@ export default function AuthContextProvider({ children }) {
         confirmPassword,
       });
       localStorage.setItem("token", response.data?.token);
+      setToken(response.data?.token);
     } catch (error) {
       const errorMsg =
         error.response?.data?.message || error.message || "An error occurred.";
@@ -38,6 +44,7 @@ export default function AuthContextProvider({ children }) {
         password,
       });
       localStorage.setItem("token", response.data?.token);
+      setToken(response.data?.token);
     } catch (error) {
       const errorMsg =
         error.response?.data?.message || error.message || "An error occurred.";
@@ -62,6 +69,7 @@ export default function AuthContextProvider({ children }) {
         googleAuthToken: idToken,
       });
       localStorage.setItem("token", response.data?.token);
+      setToken(response.data?.token);
     } catch (error) {
       const errorMsg =
         error.response?.data?.message || error.message || "An error occurred.";
@@ -77,6 +85,7 @@ export default function AuthContextProvider({ children }) {
     try {
       await api.post("/users/logout");
       localStorage.removeItem("token");
+      setToken(null);
     } catch (error) {
       const errorMsg =
         error.response?.data?.message || error.message || "An error occurred.";
@@ -95,6 +104,7 @@ export default function AuthContextProvider({ children }) {
     setIsLoading,
     isError,
     setIsError,
+    token,
   };
   return <AuthContext value={value}>{children}</AuthContext>;
 }
