@@ -1,10 +1,17 @@
-export default function ProfileInfoItem({ isClick, label, text, placeholder }) {
+export default function ProfileInfoItem({
+  isClick,
+  label,
+  text,
+  placeholder,
+  ...props
+}) {
   return (
     <div className=' w-full md:w-lg'>
       <span className={`${isClick ? "flex flex-col gap-2" : ""}`}>
         <span className='text-xl sm:text-2xl font-semibold mr-2'>{label}:</span>
         {isClick ? (
           <input
+            {...props}
             required
             name='name'
             type='text'

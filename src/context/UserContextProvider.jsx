@@ -10,7 +10,7 @@ export default function UserContextProvider({ children }) {
     setIsLoading(true);
     setIsError("");
     try {
-      await api.post(`/users/updateMe`, { object });
+      await api.patch(`/users/updateMe`, object);
     } catch (error) {
       const errorMsg =
         error.response?.data?.message || error.message || "An error occurred.";
