@@ -6,6 +6,9 @@ import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import FindPartnerPage from "../pages/FindPartnerPage";
 import PartnerDetailsPage from "../pages/PartnerDetailsPage";
+import ProtectRoute from "./ProtectRoute";
+import PublicRoute from "./PublicRoute";
+import ForgetPassword from "../pages/ForgetPassword";
 
 const router = createBrowserRouter([
   {
@@ -13,12 +16,33 @@ const router = createBrowserRouter([
     Component: RootLayout,
     children: [
       { index: true, Component: Homepage },
-      { path: "login", Component: LoginPage },
+      {
+        path: "login",
+        element: (
+          <PublicRoute>
+            <LoginPage />
+          </PublicRoute>
+        ),
+      },
       { path: "signup", Component: RegisterPage },
-      { path: "profile", Component: ProfilePage },
+      { path: "forget-password", Component: ForgetPassword },
       { path: "find-partner", Component: FindPartnerPage },
-      { path: "partner/:id", Component: PartnerDetailsPage },
-      { path: "profile", Component: ProfilePage },
+      {
+        path: "partner/:id",
+        element: (
+          <ProtectRoute>
+            <PartnerDetailsPage />
+          </ProtectRoute>
+        ),
+      },
+      {
+        path: "profile",
+        element: (
+          <ProtectRoute>
+            <ProfilePage />
+          </ProtectRoute>
+        ),
+      },
     ],
   },
 ]);

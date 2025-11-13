@@ -8,9 +8,11 @@ import { FcGoogle } from "react-icons/fc";
 import { MdPersonSearch } from "react-icons/md";
 import { Link } from "react-router";
 import SignWith from "./SignWith";
+import useAuthContext from "../context/useAuthContext";
 
 export default function MobileNav() {
   const [isOpen, setIsOpen] = useState(false);
+  const { token } = useAuthContext();
   return (
     <div className='md:hidden'>
       <button
@@ -34,27 +36,28 @@ export default function MobileNav() {
               <NavLinkWithIcon path='/find-partner' icon={<MdPersonSearch />}>
                 Find Partner
               </NavLinkWithIcon>
-              <NavLinkWithIcon
-                path='/create-profile'
-                icon={<BsPersonBoundingBox />}
-              >
-                Profile
-              </NavLinkWithIcon>
+              {token && (
+                <NavLinkWithIcon path='/profile' icon={<BsPersonBoundingBox />}>
+                  Profile
+                </NavLinkWithIcon>
+              )}
             </div>
           </div>
-          <div>
-            <div className='flex flex-col'>
-              <div className='flex flex-row items-center justify-center pt-2 border-t-2 border-gray-300 dark:border-gray-700 gap-2'>
-                <Link to='/login' className='btn btn-outline btn-info'>
-                  Login
-                </Link>
-                <Link to='/signup' className='btn btn-outline btn-primary'>
-                  Signup
-                </Link>
+          {!token && (
+            <div>
+              <div className='flex flex-col'>
+                <div className='flex flex-row items-center justify-center pt-2 border-t-2 border-gray-300 dark:border-gray-700 gap-2'>
+                  <Link to='/login' className='btn btn-outline btn-info'>
+                    Login
+                  </Link>
+                  <Link to='/signup' className='btn btn-outline btn-primary'>
+                    Signup
+                  </Link>
+                </div>
+                <SignWith icon={<FcGoogle />}>Continue with Google</SignWith>
               </div>
-              <SignWith icon={<FcGoogle />}>Continue with Google</SignWith>
             </div>
-          </div>
+          )}
         </div>
       )}
     </div>
