@@ -3,20 +3,42 @@ import { useState } from "react";
 
 import { FcGoogle } from "react-icons/fc";
 import SignWith from "../components/SignWith";
+import useAuthContext from "../context/useAuthContext";
 
 export default function LoginPage() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [forgetPasswordEmail, setForgetPasswordEmail] = useState(null);
+  const { socialLogin, isLoading, setIsLoading, isError, setIsError, login } =
+    useAuthContext();
+
+  async function handelSubmit(e) {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formData);
+    try {
+      setIsLoading(true);
+      setIsError("");
+      await login(data?.email, data?.password);
+    } catch (error) {
+      const msg = error?.message || error?.status || "An occurred Error!";
+      setIsError(msg);
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   return (
     <div className='flex flex-col justify-center items-center min-h-[70vh]'>
-      <form className='w-full max-w-xs'>
+      <form onSubmit={(e) => handelSubmit(e)} className='w-full max-w-xs'>
         <div>
           <fieldset className='fieldset bg-base-200 border-base-300 shadow-md rounded-box w-xs border p-4'>
-            <legend className='fieldset-legend w-full text-lg'>Login</legend>
+            <legend className='fieldset-legend w-full text-lg'>
+              {isLoading ? "Processing....." : "Login"}
+            </legend>
 
             <label className='label text-center pt-2 text-red-700'>
-              {/* {isError ? isError : ""} */}
+              {isError ? isError : ""}
             </label>
 
             <label htmlFor='email' className='label text-sm'>
@@ -64,7 +86,7 @@ export default function LoginPage() {
             </label>
 
             <button
-              // disabled={isPending}
+              disabled={isLoading}
               type='submit'
               className='btn btn-primary btn-outline mt-2 text-lg'
             >
@@ -80,7 +102,9 @@ export default function LoginPage() {
                 Signup
               </Link>{" "}
             </p>
-            <SignWith icon={<FcGoogle />}>Sign in with Google</SignWith>
+            <SignWith onClick={() => socialLogin()} icon={<FcGoogle />}>
+              Sign in with Google
+            </SignWith>
           </fieldset>
         </div>
       </form>
