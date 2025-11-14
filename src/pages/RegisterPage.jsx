@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { useNavigate } from "react-router";
 import { FcGoogle } from "react-icons/fc";
 import { useState } from "react";
 import SignWith from "../components/SignWith";
@@ -22,6 +22,8 @@ export default function RegisterPage() {
   const [signupError, setSignupError] = useState({});
   const { signup, isError, isLoading, setIsLoading, setIsError, socialLogin } =
     useAuthContext();
+
+  const navigate = useNavigate();
 
   // handel the image picker
   function handleImageChange(e) {
@@ -241,12 +243,16 @@ export default function RegisterPage() {
 
           <p className='text-sm pt-2 text-center'>
             You have already an account?
-            <Link
-              className='text-sm text-primary font-semibold ml-1'
-              to='/login'
+            <button
+              type='button'
+              className='text-sm text-primary font-semibold ml-1 cursor-pointer'
+              onClick={() => {
+                navigate("/login", { replace: true });
+                setIsError("");
+              }}
             >
               Login
-            </Link>
+            </button>
           </p>
 
           <SignWith onClick={() => socialLogin()} icon={<FcGoogle />}>

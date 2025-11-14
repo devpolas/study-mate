@@ -46,11 +46,12 @@ export default function AuthContextProvider({ children }) {
       });
       localStorage.setItem("token", response.data?.token);
       setToken(response.data?.token);
-      return;
+      return true;
     } catch (error) {
       const errorMsg =
         error.response?.data?.message || error.message || "An error occurred.";
       setIsError(errorMsg);
+      return false;
     } finally {
       setIsLoading(false);
     }
@@ -72,11 +73,12 @@ export default function AuthContextProvider({ children }) {
       });
       localStorage.setItem("token", response.data?.token);
       setToken(response.data?.token);
-      return;
+      return true;
     } catch (error) {
       const errorMsg =
         error.response?.data?.message || error.message || "An error occurred.";
       setIsError(errorMsg);
+      return false;
     } finally {
       setIsLoading(false);
     }

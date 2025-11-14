@@ -20,8 +20,8 @@ export default function LoginPage() {
     try {
       setIsLoading(true);
       setIsError("");
-      await login(data?.email, data?.password);
-      if (!isError) {
+      const response = await login(data?.email, data?.password);
+      if (response) {
         navigate(location?.state || "/");
       }
     } catch (error) {
@@ -37,9 +37,7 @@ export default function LoginPage() {
     setIsError("");
     try {
       await socialLogin();
-      if (!isError) {
-        navigate(location?.state || "/");
-      }
+      navigate(location?.state || "/");
     } catch (error) {
       const msg = error?.message || error?.status || "An occurred Error!";
       setIsError(msg);
@@ -113,12 +111,16 @@ export default function LoginPage() {
 
             <p className='text-sm pt-2 text-center'>
               Create an account?{" "}
-              <Link
-                className='text-sm text-secondary ml-1 font-semibold'
-                to='/signup'
+              <button
+                type='button'
+                onClick={() => {
+                  navigate("/signup", { replace: true });
+                  setIsError("");
+                }}
+                className='text-sm text-secondary ml-1 font-semibold hover:cursor-pointer'
               >
                 Signup
-              </Link>{" "}
+              </button>{" "}
             </p>
             <SignWith onClick={() => handelSocialLogin()} icon={<FcGoogle />}>
               Sign in with Google

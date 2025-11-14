@@ -29,7 +29,14 @@ const router = createBrowserRouter([
           </PublicRoute>
         ),
       },
-      { path: "signup", Component: RegisterPage },
+      {
+        path: "signup",
+        element: (
+          <PublicRoute>
+            <RegisterPage />
+          </PublicRoute>
+        ),
+      },
       { path: "forget-password", Component: ForgetPassword },
       {
         path: "find-partner",
