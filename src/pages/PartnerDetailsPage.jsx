@@ -6,7 +6,7 @@ export default function PartnerDetailsPage() {
   const user = mateData.data.user;
 
   return (
-    <div className='flex flex-col sm:flex-row justify-center-safe items-center sm:items-stretch gap-8 pt-8'>
+    <div className='flex flex-col sm:flex-row justify-center-safe items-center sm:items-stretch gap-8 pt-16'>
       <div className='flex flex-col justify-center md:justify-start'>
         <div>
           <img
