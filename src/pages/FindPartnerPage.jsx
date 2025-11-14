@@ -94,7 +94,7 @@ export default function FindPartnerPage() {
             onChange={(e) => setSortBy(e.target.value.toLowerCase())}
             className='select'
           >
-            <option disabled={true}>Sort By</option>
+            <option value='default'>Sort By</option>
             <option value='name'>Name</option>
             <option value='rating'>Rating</option>
             <option value='experience'>Experience Level</option>
