@@ -19,8 +19,7 @@ export default function ProfileInfo({ user }) {
     image: user?.image || null,
   });
 
-  const { setIsLoading, setIsError, isLoading, isError, updateMe } =
-    useUserContext();
+  const { setIsLoading, setIsError, isLoading, updateMe } = useUserContext();
 
   async function handelUpdate() {
     const {
@@ -53,13 +52,11 @@ export default function ProfileInfo({ user }) {
       setIsError(msg);
     } finally {
       setIsLoading(false);
-      setIsError("");
     }
   }
 
   return (
     <div className='flex flex-col gap-5'>
-      {isError ? isError : ""}
       <div className='flex flex-col gap-3 sm:gap-4 md:text-left'>
         {isClick && (
           <fieldset className='fieldset'>
@@ -144,7 +141,11 @@ export default function ProfileInfo({ user }) {
             disabled={isLoading}
             className='btn btn-soft btn-success'
           >
-            Save
+            {isLoading ? (
+              <span className='loading loading-spinner text-primary'></span>
+            ) : (
+              <span>Save</span>
+            )}
           </button>
         )}
       </div>
