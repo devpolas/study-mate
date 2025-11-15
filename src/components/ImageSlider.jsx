@@ -29,7 +29,7 @@ const data = [
       "Study make some fun by you with yours friends and communicate friends",
   },
   {
-    id: 2,
+    id: 4,
     title: "All subjects tutorials, Notes",
     image: "https://i.ibb.co.com/fG1ySqBt/2.webp",
     description:
@@ -60,7 +60,7 @@ export default function ImageSlider() {
       >
         {data.map((item) => (
           <SwiperSlide key={item.id}>
-            <SlideCard {...item} />
+            <SlideCard key={item.id} {...item} />
           </SwiperSlide>
         ))}
       </Swiper>

@@ -1,20 +1,34 @@
 import { useLoaderData } from "react-router";
 import MateIntro from "./../components/MateIntro";
 import { useEffect, useState } from "react";
+import { getAllFriend, getMe } from "../utils/dataLoader";
 
 export default function FindPartnerPage() {
   const [mate, setMate] = useState([]);
   const [sortBy, setSortBy] = useState("");
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState("");
+  const [allFriend, setAllFriend] = useState([]);
 
   const allUsers = useLoaderData();
   const usersData = allUsers?.data?.users || [];
+  const allFriendId = new Set(allFriend?.map((u) => u?._id));
+  const allUserData = usersData.filter((el) => !allFriendId.has(el?._id));
 
   // api search end point
   //  *https://study-mate-api.vercel.app/api/v1/users?slug=query
   //  *https://study-mate-api.vercel.app/api/v1/users?slug=query&sort=-name
   // filter and sort use userLoaderData for better user experience
+
+  useEffect(function () {
+    async function loadRequest() {
+      const me = await getMe();
+      const allFriendResponse = await getAllFriend(me.data.user?._id);
+      setAllFriend(allFriendResponse.data);
+    }
+
+    return () => loadRequest();
+  }, []);
 
   // FILTER (Search)
   useEffect(() => {
@@ -22,9 +36,9 @@ export default function FindPartnerPage() {
 
     const delay = setTimeout(() => {
       if (!query) {
-        setMate(usersData);
+        setMate(allUserData);
       } else {
-        const result = usersData.filter((item) =>
+        const result = allUserData.filter((item) =>
           item.name.toLowerCase().includes(query.toLowerCase())
         );
         setMate(result);
@@ -33,7 +47,7 @@ export default function FindPartnerPage() {
     }, 300);
 
     return () => clearTimeout(delay);
-  }, [query, usersData]);
+  }, [query]);
 
   // SORT
   useEffect(() => {
@@ -42,7 +56,7 @@ export default function FindPartnerPage() {
     setLoading(true);
 
     const delay = setTimeout(() => {
-      const sorted = [...mate];
+      const sorted = [...allUserData];
 
       if (sortBy === "name") {
         sorted.sort((a, b) => a.name.localeCompare(b.name));
