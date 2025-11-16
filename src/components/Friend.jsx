@@ -1,5 +1,6 @@
 import { useState } from "react";
 import useUserContext from "../context/useUserContext";
+import { toast } from "react-toastify";
 
 export default function Friend({ data = [], userId }) {
   const [deleteFriend, setDeleteFriend] = useState(false);
@@ -11,9 +12,11 @@ export default function Friend({ data = [], userId }) {
     try {
       const response = await unfriend(id);
       if (response) {
+        toast.success("successfully deleted!");
         setDeleteFriend(true);
       }
     } catch (error) {
+      toast.error("fail to deleted!");
       if (error) {
         throw new Error("Fail to deleted!");
       }

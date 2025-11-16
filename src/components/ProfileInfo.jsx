@@ -4,6 +4,7 @@ import ProfileInfoDropDownItem from "./ProfileInfoDropDownItem";
 import useUserContext from "./../context/useUserContext";
 import { uploadImageToImgBB } from "../http/imageUpload";
 import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
 
 export default function ProfileInfo({ user }) {
   const [isClick, setIsClick] = useState(false);
@@ -45,9 +46,11 @@ export default function ProfileInfo({ user }) {
         experienceLevel,
         location,
       });
+      toast.success("successfully updated!");
       setIsClick(false);
       navigate("/profile", { replace: true });
     } catch (error) {
+      toast.error("fail to update!");
       const msg = error?.message || error?.status || "Fail to update!";
       setIsError(msg);
     } finally {

@@ -10,6 +10,7 @@ import {
   nameValidation,
   passwordValidator,
 } from "../utils/validator";
+import { toast } from "react-toastify";
 
 const ratingAverage = Number(Math.random() * 4 + 1).toFixed(1);
 const IMAGE_SIZE_LIMIT = 2 * 1024 * 1024;
@@ -86,9 +87,11 @@ export default function RegisterPage() {
         image: imageUrl,
         ratingAverage,
       });
+      toast.success("successfully signup!");
       navigate("/");
       setIsSubmitting(false);
     } catch (err) {
+      toast.error("fail to signup!");
       setIsError(err?.message || "An occurred Error!");
       setIsSubmitting(false);
     } finally {

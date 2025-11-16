@@ -4,6 +4,7 @@ import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import SignWith from "../components/SignWith";
 import useAuthContext from "../context/useAuthContext";
+import { toast } from "react-toastify";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -27,9 +28,11 @@ export default function LoginPage() {
       setIsError("");
       const response = await login(email, password);
       if (response) {
+        toast.success("successfully login!");
         navigate(location?.state?.from || "/", { replace: true });
       }
     } catch (error) {
+      toast.error("fail to login!");
       setIsError(error?.message || "An occurred Error!");
     } finally {
       setIsSubmitting(false);
@@ -43,9 +46,11 @@ export default function LoginPage() {
       setIsError("");
       const result = await socialLogin();
       if (result) {
+        toast.success("successfully login!");
         navigate(location?.state?.from || "/", { replace: true });
       }
     } catch (error) {
+      toast.error("fail to login!");
       setIsError(error?.message || "An occurred Error!");
     } finally {
       setIsSubmitting(false);
