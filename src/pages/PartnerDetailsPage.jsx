@@ -4,6 +4,7 @@ import useUserContext from "./../context/useUserContext.jsx";
 import { useEffect, useState } from "react";
 import { getAllFriend, getAllFriendRequest } from "../utils/dataLoader.js";
 import useAuthContext from "../context/useAuthContext.jsx";
+import { toast } from "react-toastify";
 
 export default function PartnerDetailsPage() {
   const { authUser } = useAuthContext();
@@ -45,11 +46,12 @@ export default function PartnerDetailsPage() {
     try {
       const response = await sendFriendRequest(e);
       if (response) {
+        toast.success("successfully send Request!");
         setSendRequest(true);
       }
     } catch (error) {
       if (error) {
-        console.log(error);
+        toast.error("fail to send Request!");
       }
     }
   }
