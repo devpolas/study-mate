@@ -2,28 +2,51 @@ import { useLoaderData } from "react-router";
 import Mate from "../components/Mate";
 import useUserContext from "./../context/useUserContext.jsx";
 import { useEffect, useState } from "react";
-import { getAllFriend } from "../utils/dataLoader.js";
+import { getAllFriend, getAllFriendRequest } from "../utils/dataLoader.js";
+import useAuthContext from "../context/useAuthContext.jsx";
 
 export default function PartnerDetailsPage() {
+  const { authUser } = useAuthContext();
+  const { sendFriendRequest } = useUserContext();
   const mateData = useLoaderData();
   const user = mateData.data.user;
   const [totalConnection, setTotalConnection] = useState([]);
+  const [sentRequest, setSendRequest] = useState(false);
+  const [isAlReadySent, setIsAlreadySent] = useState([]);
 
-  const { sendFriendRequest } = useUserContext();
+  const isFriend = totalConnection.some(
+    (el) =>
+      ((el.requester?._id === authUser?._id &&
+        el.recipient?._id === user?._id) ||
+        (el.recipient?._id === authUser?._id &&
+          el.requester?._id === user?._id)) &&
+      el.status === "accepted"
+  );
 
-  useEffect(function () {
+  const isAlreadySentRequest = isAlReadySent.some(
+    (el) =>
+      el.requester?._id === authUser?._id &&
+      el.recipient?._id === user?._id &&
+      el.status === "pending"
+  );
+
+  useEffect(() => {
     async function loadAllFriends() {
-      const response = await getAllFriend(user?._id);
+      const sendRequest = await getAllFriendRequest(authUser?._id);
+      const response = await getAllFriend(authUser?._id);
       setTotalConnection(response.data);
+      setIsAlreadySent(sendRequest.data);
     }
 
-    return () => loadAllFriends();
-  }, []);
+    if (user?._id) loadAllFriends();
+  }, [user?._id]);
 
   async function addMate(e) {
     try {
       const response = await sendFriendRequest(e);
-      console.log(response);
+      if (response) {
+        setSendRequest(true);
+      }
     } catch (error) {
       if (error) {
         console.log(error);
@@ -64,10 +87,15 @@ export default function PartnerDetailsPage() {
               </span>
             </h3>
             <button
+              disabled={isFriend || sentRequest || isAlreadySentRequest}
               onClick={() => addMate(user?._id)}
               className='btn btn-primary btn-lg btn-soft'
             >
-              Add Mate
+              {isFriend
+                ? "Already Friend"
+                : isAlreadySentRequest || sentRequest
+                ? "Already Requested"
+                : "Add Mate"}
             </button>
           </div>
         </div>
