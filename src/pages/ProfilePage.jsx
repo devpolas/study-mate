@@ -1,14 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AllFriends from "../components/AllFriends";
 import ProfileInfo from "../components/ProfileInfo";
 import { useLoaderData } from "react-router";
+import { getAllFriend, getAllFriendRequest } from "../utils/dataLoader";
 
 export default function ProfilePage() {
   const [isClick, setIsClick] = useState(false);
+  const [allFriend, setAllFriend] = useState([]);
+  const [allRequest, setRequest] = useState([]);
   const data = useLoaderData();
 
   const { user } = data.data;
-  console.log(user);
+  useEffect(function () {
+    async function loadFriend() {
+      const allFriendRequest = await getAllFriendRequest(user?._id);
+      const allFriend = await getAllFriend(user?._id);
+      setAllFriend(allFriend?.data);
+      setRequest(allFriendRequest.data);
+    }
+    loadFriend();
+  }, []);
   return (
     <div className='grid place-content-center'>
       <div className='flex flex-col md:flex-row justify-center items-center md:items-start gap-8 md:gap-12 p-6 md:p-12 lg:p-16'>
@@ -54,7 +65,15 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        {isClick ? <AllFriends /> : <ProfileInfo user={user} />}
+        {isClick ? (
+          <AllFriends
+            user={user}
+            allFriend={allFriend}
+            allRequest={allRequest}
+          />
+        ) : (
+          <ProfileInfo user={user} />
+        )}
       </div>
     </div>
   );

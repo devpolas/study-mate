@@ -1,8 +1,16 @@
 import { HiOutlineUserGroup } from "react-icons/hi";
 import { HiOutlineUserAdd } from "react-icons/hi";
 import { HiLink } from "react-icons/hi";
+import Friends from "./Friends";
 
-export default function AllFriends() {
+export default function AllFriends({ user, allFriend, allRequest }) {
+  const sentRequests = allRequest.filter(
+    (allRequest) => allRequest.requester._id === user?._id
+  );
+  const receivedRequests = allRequest.filter(
+    (allRequest) => allRequest.recipient._id === user?._id
+  );
+
   return (
     <div className='tabs tabs-lift'>
       <label className='tab'>
@@ -11,7 +19,7 @@ export default function AllFriends() {
         <span className='text-xs md:text-sm'>Friends</span>
       </label>
       <div className='tab-content bg-base-100 border-base-300 p-6'>
-        All Friends
+        <Friends user={user} data={allFriend} />
       </div>
       <label className='tab'>
         <input type='radio' name='my_tabs_4' defaultChecked />
@@ -19,7 +27,7 @@ export default function AllFriends() {
         <span className='text-xs md:text-sm'>Requests</span>
       </label>
       <div className='tab-content bg-base-100 border-base-300 p-6'>
-        All Send Friend Requests
+        <Friends user={user} data={receivedRequests} />
       </div>
       <label className='tab'>
         <input type='radio' name='my_tabs_4' />
@@ -27,7 +35,7 @@ export default function AllFriends() {
         <span className='text-xs md:text-sm'>Send Request</span>
       </label>
       <div className='tab-content bg-base-100 border-base-300 p-6'>
-        All Send Request
+        <Friends user={user} data={sentRequests} />
       </div>
     </div>
   );
