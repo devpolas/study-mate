@@ -1,5 +1,5 @@
 import UserContext from "./CreateUserContext";
-import api from "./../utils/api";
+import axiosPrivate from "./../http/axiosPrivate";
 import { useState } from "react";
 
 export default function UserContextProvider({ children }) {
@@ -10,7 +10,7 @@ export default function UserContextProvider({ children }) {
     setIsLoading(true);
     setIsError("");
     try {
-      await api.patch(`/users/updateMe`, object);
+      await axiosPrivate.patch(`/users/updateMe`, object);
       return true;
     } catch (error) {
       const errorMsg =
@@ -25,7 +25,9 @@ export default function UserContextProvider({ children }) {
     setIsLoading(true);
     setIsError("");
     try {
-      await api.post(`/friendships/send-request`, { recipientId: recipient });
+      await axiosPrivate.post(`/friendships/send-request`, {
+        recipientId: recipient,
+      });
       return true;
     } catch (error) {
       const errorMsg =
@@ -40,7 +42,9 @@ export default function UserContextProvider({ children }) {
     setIsLoading(true);
     setIsError("");
     try {
-      await api.post(`/friendships/accept-request`, { recipient: recipient });
+      await axiosPrivate.post(`/friendships/accept-request`, {
+        requesterId: recipient,
+      });
       return true;
     } catch (error) {
       const errorMsg =
@@ -55,7 +59,26 @@ export default function UserContextProvider({ children }) {
     setIsLoading(true);
     setIsError("");
     try {
-      await api.post(`/friendships/unfriend`, { recipientId: recipient });
+      await axiosPrivate.post(`/friendships/unfriend`, {
+        recipientId: recipient,
+      });
+      return true;
+    } catch (error) {
+      const errorMsg =
+        error.response?.data?.message || error.message || "An error occurred.";
+      setIsError(errorMsg);
+      return false;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  const deleteRequest = async (recipient) => {
+    setIsLoading(true);
+    setIsError("");
+    try {
+      await axiosPrivate.post(`/friendships/delete-request`, {
+        recipientId: recipient,
+      });
       return true;
     } catch (error) {
       const errorMsg =
@@ -71,6 +94,7 @@ export default function UserContextProvider({ children }) {
     sendFriendRequest,
     acceptFriendRequest,
     unfriend,
+    deleteRequest,
     isLoading,
     setIsLoading,
     isError,

@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { appAuth } from "../features/firebase.config";
 import AuthContext from "./CreateAuthContext";
-import api from "../utils/api";
+import axiosPrivate from ".././http/axiosPrivate";
+import axiosPublic from ".././http/axiosPublic";
 
 export default function AuthContextProvider({ children }) {
   // Initial auth check
@@ -19,15 +20,16 @@ export default function AuthContextProvider({ children }) {
     const checkAuth = async () => {
       const storedToken = localStorage.getItem("token");
       if (!storedToken) {
+        setToken("");
         setIsLoading(false);
         return;
       }
 
       try {
         // backend returns user info
-        const response = await api.get("/users/me");
+        const response = await axiosPrivate.get("/users/me");
         setToken(storedToken);
-        setAuthUser(response.data.data.user);
+        setAuthUser(response.data?.data?.user);
       } catch (err) {
         console.log("Auth check failed:", err);
         localStorage.removeItem("token");
@@ -46,7 +48,7 @@ export default function AuthContextProvider({ children }) {
     setIsSubmitting(true);
     setIsError("");
     try {
-      const response = await api.post(`/users/signup`, signupObject);
+      const response = await axiosPublic.post(`/users/signup`, signupObject);
       localStorage.setItem("token", response.data?.token);
       setToken(response.data?.token);
       setAuthUser(response.data?.user);
@@ -66,7 +68,7 @@ export default function AuthContextProvider({ children }) {
     setIsSubmitting(true);
     setIsError("");
     try {
-      const response = await api.post(`/users/login`, {
+      const response = await axiosPublic.post(`/users/login`, {
         email,
         password,
       });
@@ -92,7 +94,7 @@ export default function AuthContextProvider({ children }) {
       const credential = await signInWithPopup(appAuth, googleAuthProvider);
       const idToken = await credential.user.getIdToken();
 
-      const response = await api.post(`/users/social-login`, {
+      const response = await axiosPublic.post(`/users/social-login`, {
         googleAuthToken: idToken,
       });
 

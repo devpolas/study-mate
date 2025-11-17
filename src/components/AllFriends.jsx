@@ -2,6 +2,7 @@ import { HiOutlineUserGroup } from "react-icons/hi";
 import { HiOutlineUserAdd } from "react-icons/hi";
 import { HiLink } from "react-icons/hi";
 import Friends from "./Friends";
+import FriendRequests from "./FriendRequests";
 
 export default function AllFriends({ user, allFriend, allRequest }) {
   const sentRequests = allRequest.filter(
@@ -27,7 +28,7 @@ export default function AllFriends({ user, allFriend, allRequest }) {
         <span className='text-xs md:text-sm'>Requests</span>
       </label>
       <div className='tab-content bg-base-100 border-base-300 p-6'>
-        <Friends user={user} data={receivedRequests} />
+        <FriendRequests user={user} data={receivedRequests} />
       </div>
       <label className='tab'>
         <input type='radio' name='my_tabs_4' />
@@ -35,7 +36,7 @@ export default function AllFriends({ user, allFriend, allRequest }) {
         <span className='text-xs md:text-sm'>Send Request</span>
       </label>
       <div className='tab-content bg-base-100 border-base-300 p-6'>
-        <Friends user={user} data={sentRequests} />
+        <FriendRequests user={user} data={sentRequests} />
       </div>
     </div>
   );

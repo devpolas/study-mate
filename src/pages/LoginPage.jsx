@@ -9,7 +9,6 @@ import { toast } from "react-toastify";
 export default function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [forgetPasswordEmail, setForgetPasswordEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);

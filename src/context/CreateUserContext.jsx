@@ -5,6 +5,7 @@ const UserContext = createContext({
   sendFriendRequest: () => {},
   acceptFriendRequest: () => {},
   unfriend: () => {},
+  deleteRequest: () => {},
   isLoading: false,
   setIsLoading: () => {},
   isError: "",

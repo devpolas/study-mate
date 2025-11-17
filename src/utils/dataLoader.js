@@ -1,5 +1,5 @@
 import axios from "axios";
-import api from "./api";
+import axiosPrivate from "../http/axiosPrivate";
 
 export const getAllUsers = async () => {
   const response = await axios.get(
@@ -8,18 +8,20 @@ export const getAllUsers = async () => {
   return response.data;
 };
 export const getSingleUser = async (id) => {
-  const response = await api.get(`/users/${id}`);
+  const response = await axiosPrivate.get(`/users/${id}`);
   return response.data;
 };
 export const getMe = async () => {
-  const response = await api.get("/users/me");
+  const response = await axiosPrivate.get("/users/me");
   return response.data;
 };
 export const getAllFriend = async (id) => {
-  const response = await api.get(`/friendships/all-friends/${id}`);
+  const response = await axiosPrivate.get(`/friendships/all-friends/${id}`);
   return response.data;
 };
 export const getAllFriendRequest = async (id) => {
-  const response = await api.get(`/friendships/all-requested-friends/${id}`);
+  const response = await axiosPrivate.get(
+    `/friendships/all-requested-friends/${id}`
+  );
   return response.data;
 };

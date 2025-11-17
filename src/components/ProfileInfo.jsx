@@ -36,8 +36,11 @@ export default function ProfileInfo({ user }) {
     try {
       setIsLoading(true);
       setIsError("");
-      const url = await uploadImageToImgBB(user?.slug, image);
-      await updateMe({
+      let url;
+      if (image) {
+        url = await uploadImageToImgBB(user?.slug, image);
+      }
+      const result = await updateMe({
         name,
         image: url,
         subject,
@@ -46,10 +49,13 @@ export default function ProfileInfo({ user }) {
         experienceLevel,
         location,
       });
-      toast.success("successfully updated!");
-      setIsClick(false);
-      navigate("/profile", { replace: true });
+      if (result) {
+        toast.success("successfully updated!");
+        setIsClick(false);
+        navigate("/profile", { replace: true });
+      }
     } catch (error) {
+      console.log(error);
       toast.error("fail to update!");
       const msg = error?.message || error?.status || "Fail to update!";
       setIsError(msg);
