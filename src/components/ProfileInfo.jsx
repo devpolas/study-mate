@@ -55,7 +55,6 @@ export default function ProfileInfo({ user }) {
         navigate("/profile", { replace: true });
       }
     } catch (error) {
-      console.log(error);
       toast.error("fail to update!");
       const msg = error?.message || error?.status || "Fail to update!";
       setIsError(msg);

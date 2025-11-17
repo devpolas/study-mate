@@ -8,7 +8,6 @@ export default function MateIntro({
   experienceLevel,
   ratingAverage,
 }) {
-  console.log(ratingAverage);
   return (
     <div className='card min-w-xs glass-effect shadow-xl border border-primary-content hover:shadow-2xl transition duration-300'>
       <figure className='px-6 pt-6'>

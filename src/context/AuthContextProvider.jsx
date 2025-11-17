@@ -44,15 +44,16 @@ export default function AuthContextProvider({ children }) {
         setToken(storedToken);
       })
       .catch((err) => {
-        console.log(err);
-        localStorage.removeItem("token");
-        setToken(null);
-        setAuthUser(null);
+        if (err) {
+          localStorage.removeItem("token");
+          setToken(null);
+          setAuthUser(null);
+        }
       })
       .finally(() => {
         setIsLoading(false);
       });
-  }, []);
+  }, [token]);
 
   // --- Signup ---
   const signup = async (signupObject) => {
