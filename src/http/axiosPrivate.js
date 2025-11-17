@@ -1,5 +1,7 @@
 import axios from "axios";
 
+// https://study-mate-api.vercel.app/api/v1
+
 const axiosPrivate = axios.create({
   baseURL: "https://study-mate-api.vercel.app/api/v1",
 });

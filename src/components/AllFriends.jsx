@@ -13,11 +13,16 @@ export default function AllFriends({ user, allFriend, allRequest }) {
   );
 
   return (
-    <div className='tabs tabs-lift'>
+    <div className='tabs tabs-lift max-w-2xl'>
       <label className='tab'>
         <input type='radio' name='my_tabs_4' />
         <HiOutlineUserGroup />
-        <span className='text-xs md:text-sm'>Friends</span>
+        <span className='text-xs md:text-sm'>
+          Friends{" "}
+          <span className='font-bold text-lg text-primary'>
+            {allFriend.length}
+          </span>
+        </span>
       </label>
       <div className='tab-content bg-base-100 border-base-300 p-6'>
         <Friends user={user} data={allFriend} />
@@ -25,7 +30,12 @@ export default function AllFriends({ user, allFriend, allRequest }) {
       <label className='tab'>
         <input type='radio' name='my_tabs_4' defaultChecked />
         <HiOutlineUserAdd />
-        <span className='text-xs md:text-sm'>Requests</span>
+        <span className='text-xs md:text-sm'>
+          Requests{" "}
+          <span className='font-bold text-lg text-primary'>
+            {receivedRequests.length}
+          </span>
+        </span>
       </label>
       <div className='tab-content bg-base-100 border-base-300 p-6'>
         <FriendRequests user={user} data={receivedRequests} />
@@ -33,7 +43,12 @@ export default function AllFriends({ user, allFriend, allRequest }) {
       <label className='tab'>
         <input type='radio' name='my_tabs_4' />
         <HiLink />
-        <span className='text-xs md:text-sm'>Send Request</span>
+        <span className='text-xs md:text-sm'>
+          Send Request{" "}
+          <span className='font-bold text-lg text-primary'>
+            {sentRequests.length}
+          </span>
+        </span>
       </label>
       <div className='tab-content bg-base-100 border-base-300 p-6'>
         <FriendRequests user={user} data={sentRequests} />

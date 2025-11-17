@@ -8,6 +8,7 @@ export default function MateIntro({
   experienceLevel,
   ratingAverage,
 }) {
+  console.log(ratingAverage);
   return (
     <div className='card min-w-xs glass-effect shadow-xl border border-primary-content hover:shadow-2xl transition duration-300'>
       <figure className='px-6 pt-6'>
@@ -23,19 +24,15 @@ export default function MateIntro({
         <div className='badge badge-outline my-2 text-sm'>
           {experienceLevel}
         </div>
-        <div className='rating'>
-          {ratingAverage !== 0 &&
-            [...Array(5)].map((_, i) => (
-              <input
-                key={i}
-                disabled
-                type='radio'
-                name='rating'
-                className='mask mask-star-2 bg-yellow-400'
-                checked={i < ratingAverage}
-                readOnly
-              />
-            ))}
+        <div>
+          {ratingAverage !== 0 && (
+            <p>
+              <span className='text-xl font-semibold'>Rating:</span>{" "}
+              <span className='text-yellow-500 text-lg font-bold'>
+                {ratingAverage}
+              </span>
+            </p>
+          )}
         </div>
         {ratingAverage === 0 && (
           <span className='text-xs text-gray-400'>No rating yet</span>

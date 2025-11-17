@@ -1,6 +1,7 @@
 import axios from "axios";
 import axiosPrivate from "../http/axiosPrivate";
 
+// https://study-mate-api.vercel.app/api/v1/users
 export const getAllUsers = async () => {
   const response = await axios.get(
     "https://study-mate-api.vercel.app/api/v1/users"

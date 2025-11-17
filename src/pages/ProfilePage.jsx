@@ -8,26 +8,18 @@ export default function ProfilePage() {
   const [isClick, setIsClick] = useState(false);
   const [allFriend, setAllFriend] = useState([]);
   const [allRequest, setRequest] = useState([]);
+  const [loading, setIsLoading] = useState(false);
   const [me, setMe] = useState({});
   const api = useAxiosSecure();
 
   useEffect(() => {
     async function me() {
+      setIsLoading(true);
       const response = await api.get("/users/me");
       setMe(response?.data);
     }
 
     me();
-  }, []);
-
-  useEffect(function () {
-    async function loadFriend() {
-      const allFriendRequest = await getAllFriendRequest(user?._id);
-      const allFriend = await getAllFriend(user?._id);
-      setAllFriend(allFriend?.data);
-      setRequest(allFriendRequest.data);
-    }
-    loadFriend();
   }, []);
 
   let user;
@@ -36,61 +28,82 @@ export default function ProfilePage() {
     user = me?.data?.user;
   }
 
+  useEffect(
+    function () {
+      async function loadFriend() {
+        const allFriendRequest = await getAllFriendRequest(user?._id);
+        const allFriend = await getAllFriend(user?._id);
+        setAllFriend(allFriend?.data);
+        setRequest(allFriendRequest.data);
+      }
+
+      if (user) {
+        loadFriend();
+        setIsLoading(false);
+      }
+    },
+    [user]
+  );
+
   return (
     <div className='grid place-content-center'>
-      <div className='flex flex-col md:flex-row justify-center items-center md:items-start gap-8 md:gap-12 p-6 md:p-12 lg:p-16'>
-        <div className='flex flex-col gap-10 justify-center md:justify-start'>
-          <div>
-            <img
-              className='rounded-md w-40 sm:w-48 md:w-56 lg:w-64 xl:w-72 object-cover'
-              src={user?.image}
-              alt='profile picture'
-            />
-            <div className='flex flex-col gap-2 pt-4'>
-              <h3>
-                <span className='text-xl sm:text-2xl font-semibold'>
-                  Email:
-                </span>{" "}
-                <span className='text-lg sm:text-xl'>{user?.email}</span>
-              </h3>
+      {loading ? (
+        <span className='loading loading-spinner text-success'></span>
+      ) : (
+        <div className='flex flex-col lg:flex-row justify-center items-center md:items-start gap-8 md:gap-12 p-6 md:p-12 lg:p-16'>
+          <div className='flex flex-col gap-10 justify-center md:justify-start'>
+            <div>
+              <img
+                className='rounded-md w-40 sm:w-48 md:w-56 lg:w-64 xl:w-72 object-cover'
+                src={user?.image}
+                alt='profile picture'
+              />
+              <div className='flex flex-col gap-2 pt-4'>
+                <h3>
+                  <span className='text-xl sm:text-2xl font-semibold'>
+                    Email:
+                  </span>{" "}
+                  <span className='text-lg sm:text-xl'>{user?.email}</span>
+                </h3>
 
-              <h3>
-                <span className='text-xl sm:text-2xl font-semibold'>
-                  Ratings:
-                </span>{" "}
-                <span className='text-lg sm:text-xl'>
-                  {user?.ratingAverage}
-                </span>
-              </h3>
+                <h3>
+                  <span className='text-xl sm:text-2xl font-semibold'>
+                    Ratings:
+                  </span>{" "}
+                  <span className='text-lg sm:text-xl'>
+                    {user?.ratingAverage}
+                  </span>
+                </h3>
+              </div>
+            </div>
+
+            <div className='flex flex-col gap-4'>
+              <button
+                onClick={() => setIsClick(false)}
+                className='btn btn-soft btn-primary'
+              >
+                All Info
+              </button>
+              <button
+                onClick={() => setIsClick(true)}
+                className='btn btn-soft btn-accent'
+              >
+                Friends
+              </button>
             </div>
           </div>
 
-          <div className='flex flex-col gap-4'>
-            <button
-              onClick={() => setIsClick(false)}
-              className='btn btn-soft btn-primary'
-            >
-              All Info
-            </button>
-            <button
-              onClick={() => setIsClick(true)}
-              className='btn btn-soft btn-accent'
-            >
-              Friends
-            </button>
-          </div>
+          {isClick ? (
+            <AllFriends
+              user={user}
+              allFriend={allFriend}
+              allRequest={allRequest}
+            />
+          ) : (
+            <ProfileInfo user={user} />
+          )}
         </div>
-
-        {isClick ? (
-          <AllFriends
-            user={user}
-            allFriend={allFriend}
-            allRequest={allRequest}
-          />
-        ) : (
-          <ProfileInfo user={user} />
-        )}
-      </div>
+      )}
     </div>
   );
 }
