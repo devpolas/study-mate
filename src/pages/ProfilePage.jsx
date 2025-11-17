@@ -1,16 +1,25 @@
 import { useEffect, useState } from "react";
 import AllFriends from "../components/AllFriends";
 import ProfileInfo from "../components/ProfileInfo";
-import { useLoaderData } from "react-router";
 import { getAllFriend, getAllFriendRequest } from "../utils/dataLoader";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 export default function ProfilePage() {
   const [isClick, setIsClick] = useState(false);
   const [allFriend, setAllFriend] = useState([]);
   const [allRequest, setRequest] = useState([]);
-  const data = useLoaderData();
+  const [me, setMe] = useState({});
+  const api = useAxiosSecure();
 
-  const { user } = data.data;
+  useEffect(() => {
+    async function me() {
+      const response = await api.get("/users/me");
+      setMe(response?.data);
+    }
+
+    me();
+  }, []);
+
   useEffect(function () {
     async function loadFriend() {
       const allFriendRequest = await getAllFriendRequest(user?._id);
@@ -20,6 +29,13 @@ export default function ProfilePage() {
     }
     loadFriend();
   }, []);
+
+  let user;
+
+  if (me) {
+    user = me?.data?.user;
+  }
+
   return (
     <div className='grid place-content-center'>
       <div className='flex flex-col md:flex-row justify-center items-center md:items-start gap-8 md:gap-12 p-6 md:p-12 lg:p-16'>

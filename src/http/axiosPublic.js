@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosPublic = axios.create({
-  baseURL: "http://localhost:3000/api/v1",
+  baseURL: "https://study-mate-api.vercel.app/api/v1",
 });
 
 export default axiosPublic;

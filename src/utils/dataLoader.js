@@ -7,14 +7,7 @@ export const getAllUsers = async () => {
   );
   return response.data;
 };
-export const getSingleUser = async (id) => {
-  const response = await axiosPrivate.get(`/users/${id}`);
-  return response.data;
-};
-export const getMe = async () => {
-  const response = await axiosPrivate.get("/users/me");
-  return response.data;
-};
+
 export const getAllFriend = async (id) => {
   const response = await axiosPrivate.get(`/friendships/all-friends/${id}`);
   return response.data;

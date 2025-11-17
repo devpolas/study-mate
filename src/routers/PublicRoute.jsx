@@ -1,14 +1,21 @@
-import { Navigate, useLocation } from "react-router";
+import { Navigate, Outlet, useLocation } from "react-router";
 import useAuthContext from "../context/useAuthContext";
 
-export default function PublicRoute({ children }) {
+export default function PublicRoute() {
   const location = useLocation();
-  const { token } = useAuthContext();
+  const { token, isLoading } = useAuthContext();
 
-  if (!token) {
-    return children;
+  if (isLoading) {
+    return (
+      <div className='flex justify-center items-center h-screen'>
+        <span className='loading loading-spinner text-primary text-3xl'></span>
+      </div>
+    );
   }
 
-  const from = location.state?.from?.pathname || "/";
-  return <Navigate to={from} replace />;
+  if (token !== null) {
+    return <Navigate to={location.state?.from || "/"} replace />;
+  }
+
+  return <Outlet />;
 }

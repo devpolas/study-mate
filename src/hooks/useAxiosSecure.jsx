@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 
 // Create Axios instance
 const instance = axios.create({
-  baseURL: "localhost:3000/api/v1",
+  baseURL: "https://study-mate-api.vercel.app/api/v1",
 });
 
 // Get access token from local storage

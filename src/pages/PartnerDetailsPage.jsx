@@ -1,19 +1,36 @@
-import { useLoaderData } from "react-router";
 import Mate from "../components/Mate";
 import useUserContext from "./../context/useUserContext.jsx";
 import { useEffect, useState } from "react";
 import { getAllFriend, getAllFriendRequest } from "../utils/dataLoader.js";
 import useAuthContext from "../context/useAuthContext.jsx";
 import { toast } from "react-toastify";
+import useAxiosSecure from "../hooks/useAxiosSecure.jsx";
+import { useParams } from "react-router";
 
 export default function PartnerDetailsPage() {
-  const { authUser } = useAuthContext();
-  const { sendFriendRequest } = useUserContext();
-  const mateData = useLoaderData();
-  const user = mateData.data.user;
+  const params = useParams();
+  const [mateData, setMateData] = useState();
   const [totalConnection, setTotalConnection] = useState([]);
   const [sentRequest, setSendRequest] = useState(false);
   const [isAlReadySent, setIsAlreadySent] = useState([]);
+  const { authUser } = useAuthContext();
+  const { sendFriendRequest } = useUserContext();
+  const api = useAxiosSecure();
+  let user;
+  if (mateData) {
+    user = mateData.data.user;
+  }
+
+  const { id } = params;
+
+  useEffect(() => {
+    async function geMate() {
+      const response = await api.get(`/users/${id}`);
+      setMateData(response.data);
+    }
+
+    geMate();
+  }, []);
 
   const isFriend = totalConnection.some(
     (el) =>

@@ -1,10 +1,11 @@
-import { Navigate, useLocation } from "react-router";
+import { Navigate, Outlet, useLocation } from "react-router";
 import useAuthContext from "../context/useAuthContext";
 
-export default function ProtectRoute({ children }) {
+export default function ProtectRoute() {
   const location = useLocation();
   const { token, isLoading } = useAuthContext();
 
+  // Loading state - wait for auth check
   if (isLoading) {
     return (
       <div className='flex justify-center items-center h-screen'>
@@ -13,9 +14,9 @@ export default function ProtectRoute({ children }) {
     );
   }
 
-  if (!token) {
-    return <Navigate to='/login' state={{ from: location.pathname }} replace />;
+  if (token) {
+    return <Outlet />;
   }
 
-  return children;
+  return <Navigate to='/login' state={{ from: location.pathname }} replace />;
 }

@@ -15,32 +15,43 @@ export default function AuthContextProvider({ children }) {
   const [authUser, setAuthUser] = useState(null);
   const googleAuthProvider = new GoogleAuthProvider();
 
+  const checkAuth = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axiosPrivate.get("/users/me");
+      return response.data?.data.user;
+    } catch (error) {
+      setIsError(error?.status || error?.message || "an occurred error!");
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   // --- Initial auth check ---
   useEffect(() => {
-    const checkAuth = async () => {
-      const storedToken = localStorage.getItem("token");
-      if (!storedToken) {
-        setToken("");
-        setIsLoading(false);
-        return;
-      }
+    const storedToken = localStorage.getItem("token");
+    if (!storedToken) {
+      setToken(null);
+      setIsLoading(false);
+      return;
+    }
+    setIsLoading(true);
 
-      try {
-        // backend returns user info
-        const response = await axiosPrivate.get("/users/me");
+    checkAuth()
+      .then((data) => {
+        setAuthUser(data);
         setToken(storedToken);
-        setAuthUser(response.data?.data?.user);
-      } catch (err) {
-        console.log("Auth check failed:", err);
+      })
+      .catch((err) => {
+        console.log(err);
         localStorage.removeItem("token");
         setToken(null);
         setAuthUser(null);
-      } finally {
+      })
+      .finally(() => {
         setIsLoading(false);
-      }
-    };
-
-    checkAuth();
+      });
   }, []);
 
   // --- Signup ---

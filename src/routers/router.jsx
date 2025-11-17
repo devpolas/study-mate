@@ -6,12 +6,12 @@ import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import FindPartnerPage from "../pages/FindPartnerPage";
 import PartnerDetailsPage from "../pages/PartnerDetailsPage";
-import ProtectRoute from "./ProtectRoute";
-import PublicRoute from "./PublicRoute";
 import ForgetPassword from "../pages/ForgetPassword";
-import { getAllUsers, getMe, getSingleUser } from "../utils/dataLoader";
+import { getAllUsers } from "../utils/dataLoader";
 import ErrorPage from "../pages/ErrorPage";
 import ErrorElement from "../pages/ErrorElement";
+import PublicRoute from "./PublicRoute";
+import ProtectRoute from "./ProtectRoute";
 
 const router = createBrowserRouter([
   {
@@ -21,51 +21,41 @@ const router = createBrowserRouter([
     errorElement: <ErrorElement />,
     children: [
       { index: true, Component: Homepage, loader: getAllUsers },
+
       {
-        path: "login",
-        element: (
-          <PublicRoute>
-            <LoginPage />
-          </PublicRoute>
-        ),
+        element: <PublicRoute />,
+        path: "/",
+        children: [
+          { path: "login", element: <LoginPage /> },
+          { path: "signup", element: <RegisterPage /> },
+        ],
       },
-      {
-        path: "signup",
-        element: (
-          <PublicRoute>
-            <RegisterPage />
-          </PublicRoute>
-        ),
-      },
-      { path: "forget-password", Component: ForgetPassword },
+
+      { path: "forget-password", element: <ForgetPassword /> },
+
       {
         path: "find-partner",
         id: "mates",
         Component: FindPartnerPage,
         loader: getAllUsers,
       },
+
       {
-        path: "partner/:id",
-        loader: async ({ params }) => await getSingleUser(params.id),
-        element: (
-          <ProtectRoute>
-            <PartnerDetailsPage />
-          </ProtectRoute>
-        ),
+        element: <ProtectRoute />,
+        path: "/",
+        children: [
+          {
+            path: "partner/:id",
+            element: <PartnerDetailsPage />,
+          },
+          {
+            path: "profile",
+            element: <ProfilePage />,
+          },
+        ],
       },
-      {
-        path: "profile",
-        loader: getMe,
-        element: (
-          <ProtectRoute>
-            <ProfilePage />
-          </ProtectRoute>
-        ),
-      },
-      {
-        path: "*",
-        Component: ErrorPage,
-      },
+
+      { path: "*", element: <ErrorPage /> },
     ],
   },
 ]);
