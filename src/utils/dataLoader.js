@@ -4,7 +4,7 @@ import axiosPrivate from "../http/axiosPrivate";
 // https://study-mate-api.vercel.app/api/v1/users
 export const getAllUsers = async () => {
   const response = await axios.get(
-    "https://study-mate-api.vercel.app/api/v1/users"
+    "https://study-mate-api.vercel.app/api/v1/users?sort=-ratingAverage"
   );
   return response.data;
 };
