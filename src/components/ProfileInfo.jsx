@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 
 export default function ProfileInfo({ user }) {
   const [isClick, setIsClick] = useState(false);
+  const [imageFile, setImageFile] = useState(null);
   const locationPath = useLocation();
   const navigate = useNavigate();
 
@@ -18,7 +19,6 @@ export default function ProfileInfo({ user }) {
     studyMode: user?.studyMode || false,
     location: user?.location || "",
     availability: user?.availability || "",
-    image: user?.image || null,
   });
 
   const { setIsLoading, setIsError, isLoading, updateMe } = useUserContext();
@@ -26,7 +26,6 @@ export default function ProfileInfo({ user }) {
   async function handelUpdate() {
     const {
       name,
-      image,
       subject,
       studyMode,
       availability,
@@ -37,13 +36,13 @@ export default function ProfileInfo({ user }) {
     try {
       setIsLoading(true);
       setIsError("");
-      let url = null;
-      if (image) {
-        url = await uploadImageToImgBB(user?.slug, image);
+      let profileImage = user?.image;
+      if (imageFile) {
+        profileImage = await uploadImageToImgBB(user?.slug, imageFile);
       }
       const result = await updateMe({
         name,
-        profileImage: url || user?.image,
+        profileImage,
         subject,
         studyMode,
         availability,
@@ -71,7 +70,7 @@ export default function ProfileInfo({ user }) {
           <fieldset className='fieldset'>
             <legend className='fieldset-legend'>Pick Profile Image!</legend>
             <input
-              onChange={(e) => setValue({ ...value, image: e.target.files[0] })}
+              onChange={(e) => setImageFile(e.target.files[0])}
               type='file'
               className='file-input'
             />
