@@ -11,9 +11,9 @@ export default function ProfileInfoDropDownItem({
         <span className='text-xl sm:text-2xl font-semibold mr-2'>{label}:</span>
         {isClick ? (
           <label className='select'>
-            <select {...props} defaultValue={text}>
-              {options.map((el, _i) => (
-                <option defaultChecked={_i === 0} key={el} value={el}>
+            <select {...props} defaultValue={options[0]}>
+              {options.map((el) => (
+                <option key={el} value={el}>
                   {el}
                 </option>
               ))}
