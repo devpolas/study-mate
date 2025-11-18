@@ -1,6 +1,9 @@
 import axios from "axios";
 
 export async function uploadImageToImgBB(name, image) {
+  if (!name || !image) {
+    return null;
+  }
   const formData = new FormData();
   formData.append("image", image);
   formData.append("name", name.replace(/\s+/g, "-"));

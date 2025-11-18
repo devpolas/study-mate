@@ -37,7 +37,7 @@ export default function ProfileInfo({ user }) {
     try {
       setIsLoading(true);
       setIsError("");
-      let url;
+      let url = null;
       if (image) {
         url = await uploadImageToImgBB(user?.slug, image);
       }
